@@ -1,0 +1,72 @@
+create database projetoAp3
+default character set utf8
+default collate utf8_general_ci;
+
+create table pessoa(
+	id int not null auto_increment,
+	nome varchar(80) not null,
+    idade int unsigned not null,
+    sexo enum('M','F') not null,
+    bairro varchar(100) not null,
+    vacinaTomada varchar(80) default 'Nenhuma',
+    qtdDosesTomadas int unsigned default '0',
+    reacoesSofridas varchar(80) default 'Nenhuma',
+    qtdReacoesSofridas int unsigned default '0',
+    qualDoseSofreuReacao varchar(80) default 'Nenhuma',
+    estaVacinado boolean,
+    primary key(id),
+    foreign key(vacinaTomada) references vacina(nome),
+    foreign key(qualDoseSofreuReacao) references doses(numeroOrdinalDose)
+)default charset = utf8;
+
+create table if not exists vacina(
+	id int not null auto_increment,
+    nome varchar(80) not null,
+    fabricante varchar(80) not null,
+    eficacia decimal(4,2),
+    reacoesAdversas varchar(200),
+    qtdDosesAplicadas int unsigned,
+    maximoReacoesGeradas int unsigned,
+    primary key(id)
+)default charset = utf8;
+
+
+create table if not exists doses(
+	id int not null auto_increment,
+    numeroOrdinalDose varchar(80) not null,
+	qtdDosesAplicadas int unsigned default '0',
+    qtdDReacoesSomenteNestaDose int unsigned default '0',
+    qtdReacoesGeradas int unsigned default '0',
+    qtdUsuariosQueSofreramReacao int unsigned default '0',
+    primary key(id)
+) default charset = utf8;
+
+
+create table if not exists reacoes(
+	  id int not null auto_increment,
+      tipo varchar(80) not null,
+	  qtdPessoasQueTiveramReacoes int unsigned,
+      primary key(id)
+) default charset = utf8;
+
+
+drop table pessoa;
+drop table reacoes;
+drop table vacina;
+drop table doses;
+
+desc reacoes;
+desc pessoa;
+desc vacina;
+desc doses;
+
+
+select * from pessoa;
+select * from vacina;
+select * from doses;
+select * from reacoes;
+
+update doses set  qtdDosesAplicadas = 5, qtdReacoesGeradas = 10 where id = 1;
+
+
+
